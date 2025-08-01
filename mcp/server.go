@@ -689,7 +689,7 @@ func (s *Server) AddReceivingMiddleware(middleware ...Middleware[*ServerSession]
 // curating these method flags.
 var serverMethodInfos = map[string]methodInfo{
 	methodComplete:               newMethodInfo(serverMethod((*Server).complete), 0),
-	methodInitialize:             newMethodInfo(sessionMethod((*ServerSession).initialize), 0),
+	methodInitialize:             newMethodInfo(sessionMethod((*ServerSession).Initialize), 0),
 	methodPing:                   newMethodInfo(sessionMethod((*ServerSession).ping), missingParamsOK),
 	methodListPrompts:            newMethodInfo(serverMethod((*Server).listPrompts), missingParamsOK),
 	methodGetPrompt:              newMethodInfo(serverMethod((*Server).getPrompt), 0),
@@ -747,7 +747,7 @@ func (ss *ServerSession) handle(ctx context.Context, req *jsonrpc.Request) (any,
 	return handleReceive(ctx, ss, req)
 }
 
-func (ss *ServerSession) initialize(ctx context.Context, params *InitializeParams) (*InitializeResult, error) {
+func (ss *ServerSession) Initialize(ctx context.Context, params *InitializeParams) (*InitializeResult, error) {
 	if params == nil {
 		return nil, fmt.Errorf("%w: \"params\" must be be provided", jsonrpc2.ErrInvalidParams)
 	}
